@@ -39,12 +39,47 @@ namespace WebApplication3.Controllers
 					string newFileName = Guid.NewGuid().ToString("N") + ext;
 
 					//存檔
+					
+					var filePath = Path.Combine(_uploads, newFileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						f.CopyTo(stream);
+					}
 
-					//新增紀錄
+					//todo新增紀錄
 				}
 			}
 
 				return View();
+		}
+
+		private string UploadProductImage(IFormFile f) {
+			var allowExts = new string[] { ".jpg", ".jpeg", ".png" };
+			
+			//判斷沒有上傳f
+			if (f == null || f.Length == 0)
+			{
+				throw new Exception("必須上傳檔案");
+			}
+
+			//判斷副檔名，檔名及大小，......是否符合要求
+			string ext = Path.GetExtension(f.FileName); //".jpg"
+			if (allowExts.Contains(ext) == false)
+			{
+				throw new Exception("副檔名不符合規定");
+			}
+
+			//為了避免檔名重複，必須取一個唯一的檔名，但副檔名相同
+			string newFileName = Guid.NewGuid().ToString("N") + ext;
+
+			//存檔
+			var filePath = Path.Combine(_uploads, newFileName);
+			using (var stream = new FileStream(filePath, FileMode.Create))
+			{
+				f.CopyTo(stream);
+			}
+		
+			return newFileName;
 		}
 	}
 }
