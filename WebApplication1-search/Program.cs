@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using WebApplication1_search.Models.EfModels;
+
 namespace WebApplication1_search
 {
 	public class Program
@@ -8,6 +11,11 @@ namespace WebApplication1_search
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+
+			//¨Ì¿àª`¤J(DI)
+			builder.Services.AddDbContext<ISpanDemoContext>(options =>
+				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+			);
 
 			var app = builder.Build();
 
