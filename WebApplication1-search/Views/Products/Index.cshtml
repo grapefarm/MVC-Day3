@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication1_search.ViewModels.ProductIndexItemViewModel>
+﻿@model WebApplication1_search.ViewModels.ProductIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -6,29 +6,38 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+@* action沒寫動作執行後會在同一頁 *@
+
+@* 篩選條件begin *@
+<form method="get">
+    @* name必須與ProductCriteria的屬性名稱相同，才會觸發ModelBinding *@
+	品名:<input type="text" name="productName" /><br />
+	售價:<input type="text" name="priceStart" /> ~ <input type="text" name="priceEnd" /><br />
+    <input type="submit" value="查詢" />
+</form>
+@* 篩選條件end *@
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
+                分類名稱
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                品名
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
+                售價
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Data) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)

@@ -1,7 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApplication1_search.Models;
 
 namespace WebApplication1_search.ViewModels
 {
+	public class ProductIndexViewModel
+	{
+		public List<ProductIndexItemViewModel> Data { get; set; }
+		public ProductCriteria Criteria { get; set; }
+	}
+
+
 	public class ProductIndexItemViewModel
 	{
 		public int Id { get; set; }

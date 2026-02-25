@@ -38,7 +38,7 @@ namespace WebApplication1_search.Controllers
 				query = query.Where(x => x.ProductName.Contains(criteria.ProductName));
 			}
 
-			IEnumerable<ProductIndexItemViewModel> data = query
+			List<ProductIndexItemViewModel> data = query
 				.Select(x => new ProductIndexItemViewModel
 				{
 					Id = x.Id,
@@ -48,7 +48,13 @@ namespace WebApplication1_search.Controllers
 				})
 				.ToList();  //LINQ的延遲執行在此時才會真正執行SQL查詢
 
-			return View(data);
+			var vm = new ProductIndexViewModel
+			{
+				Data = data,
+				Criteria = criteria
+			};
+
+			return View(vm);
 		}
 	}
 }
