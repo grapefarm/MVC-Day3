@@ -16,42 +16,58 @@ namespace WebApplication3.Controllers
 
 		public IActionResult Create(IFormFile f)
 		{
-			
-			var allowExts = new string[] { ".jpg", ".jpeg", ".png" };
-			//判斷沒有上傳f
-			if (f==null || f.Length == 0)
+			try
 			{
-				ModelState.AddModelError("", "必須上傳檔案");
+				var newFileName = UploadProductImage(f);
+
+				//todo新增紀錄
 			}
-			else
+			catch (Exception ex)
 			{
-				//判斷副檔名，檔名及大小，......是否符合要求
-				string ext= Path.GetExtension(f.FileName); //".jpg"
-				if (allowExts.Contains(ext) == false)
-				{
-					ModelState.AddModelError("", "副檔名不符合規定");
-				}
-				else
-				{
-					//為了避免檔名重複，必須取一個唯一的檔名，但副檔名相同
-					//ToString()會生成一個有"-"的字串
-					//ToString("N")會生成一個沒有"-"的字串，較短，較不易超出windows的檔名長度限制
-					string newFileName = Guid.NewGuid().ToString("N") + ext;
-
-					//存檔
-					
-					var filePath = Path.Combine(_uploads, newFileName);
-					using (var stream = new FileStream(filePath, FileMode.Create))
-					{
-						f.CopyTo(stream);
-					}
-
-					//todo新增紀錄
-				}
+				ModelState.AddModelError("", ex.Message);
 			}
-
-				return View();
+			return View(); //若失敗，會執行這一行，就能很順利顯示ModelState的錯誤訊息；目前我們沒做這一點，所以看不見錯誤訊息
 		}
+
+
+		//public IActionResult Create(IFormFile f)
+		//{
+
+		//	var allowExts = new string[] { ".jpg", ".jpeg", ".png" };
+		//	//判斷沒有上傳f
+		//	if (f==null || f.Length == 0)
+		//	{
+		//		ModelState.AddModelError("", "必須上傳檔案");
+		//	}
+		//	else
+		//	{
+		//		//判斷副檔名，檔名及大小，......是否符合要求
+		//		string ext= Path.GetExtension(f.FileName); //".jpg"
+		//		if (allowExts.Contains(ext) == false)
+		//		{
+		//			ModelState.AddModelError("", "副檔名不符合規定");
+		//		}
+		//		else
+		//		{
+		//			//為了避免檔名重複，必須取一個唯一的檔名，但副檔名相同
+		//			//ToString()會生成一個有"-"的字串
+		//			//ToString("N")會生成一個沒有"-"的字串，較短，較不易超出windows的檔名長度限制
+		//			string newFileName = Guid.NewGuid().ToString("N") + ext;
+
+		//			//存檔
+
+		//			var filePath = Path.Combine(_uploads, newFileName);
+		//			using (var stream = new FileStream(filePath, FileMode.Create))
+		//			{
+		//				f.CopyTo(stream);
+		//			}
+
+		//			//todo新增紀錄
+		//		}
+		//	}
+
+		//		return View();
+		//}
 
 		private string UploadProductImage(IFormFile f) {
 			var allowExts = new string[] { ".jpg", ".jpeg", ".png" };
@@ -78,7 +94,7 @@ namespace WebApplication3.Controllers
 			{
 				f.CopyTo(stream);
 			}
-		
+
 			return newFileName;
 		}
 	}
