@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1_search.Models;
 using WebApplication1_search.Models.EfModels;
 using WebApplication1_search.ViewModels;
 
@@ -14,7 +15,8 @@ namespace WebApplication1_search.Controllers
 			_context = context;
 		}
 
-		public IActionResult Index()
+		//從URL Query String接收搜尋條件 ?productName=xxx&priceStart=100&priceEnd=500
+		public IActionResult Index(ProductCriteria criteria)
 		{
 			
 			//取得紀錄
