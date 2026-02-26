@@ -1,7 +1,9 @@
-﻿@model WebApplication1_search.ViewModels.ProductIndexViewModel
+﻿@using WebApplication1_search.ViewModels
+@model WebApplication1_search.ViewModels.ProductIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
+    var product = Model.Data?.FirstOrDefault() ?? new ProductIndexItemViewModel();
 }
 
 <h1>Index</h1>
@@ -22,16 +24,16 @@
     <thead>
         <tr>
             <th>
-                Id
+				@Html.DisplayNameFor(model => product.Id)
             </th>
             <th>
-                分類名稱
+                @Html.DisplayNameFor(model => product.CategoryName)
             </th>
             <th>
-                品名
+                @Html.DisplayNameFor(model => product.ProductName)
             </th>
             <th>
-                售價
+                @Html.DisplayNameFor(model => product.UnitPrice)
             </th>
             <th></th>
         </tr>
