@@ -14,8 +14,9 @@
 @* 篩選條件begin *@
 <form method="get">
     @* name必須與ProductCriteria的屬性名稱相同，才會觸發ModelBinding *@
-	品名:<input type="text" name="productName" /><br />
-	售價:<input type="text" name="priceStart" /> ~ <input type="text" name="priceEnd" /><br />
+    @* 透過asp-for來達成篩選條件不清空 *@
+	品名:<input type="text" name="productName" asp-for="@Model.Criteria.ProductName" /><br />
+    售價:<input type="text" name="priceStart" asp-for="@Model.Criteria.PriceStart" /> ~ <input type="text" name="priceEnd" asp-for="@Model.Criteria.PriceEnd"/><br />
     <input type="submit" value="查詢" />
 </form>
 @* 篩選條件end *@
